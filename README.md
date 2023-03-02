@@ -14,6 +14,8 @@
     ![image](https://github.com/qkyo/MISRayTracingInUnity/blob/main/RenderResultSet/Different%20Material.png)
     
  * Implement the cornell box using mixture pdf between based-on-light and based-on-random-normal-on-sphere.
+ 
+    ![image](https://github.com/qkyo/MISRayTracingInUnity/blob/main/RenderResultSet/Cornell%20box.png)
 
  * Using random value to pick pdf btw specular and diffuse so that the direction is chosen properly.
     * spheres with 0.9 specular and 0.1 diffuse coefficient
