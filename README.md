@@ -17,7 +17,9 @@
 
  * Using random value to pick pdf btw specular and diffuse so that the direction is chosen properly.
     * One bounce reflection without denoiser
+ 
     ![image](https://github.com/qkyo/MISRayTracingInUnity/blob/main/RenderResultSet/MIS.png)
     
     * Accumulate result
+    
     ![image](https://github.com/qkyo/MISRayTracingInUnity/blob/main/RenderResultSet/MIS%20with%20accumulate%20frame.png)
