@@ -1,0 +1,121 @@
+// Each #kernel tells which function to compile; you can have many kernels
+#pragma kernel Cm2SmMain
+#pragma multi_compile __ SHOW_NORMAL
+#pragma multi_compile __ SHOW_FACES
+
+// Create a RenderTexture with enableRandomWrite flag and set it
+// with cs.SetTexture
+RWTexture2D<float4> Result;
+
+TextureCube _CubeMapTexture 			        : register(t0);
+SamplerState sampler_LinearClamp			 	: register(s0);
+float3 _TextureSize;
+
+//Calculate direction from dispatchThreadID
+float3 GetDirectionFromIndex(uint3 textureSize, uint3 dispatchThreadID)
+{
+    float2 uv = (dispatchThreadID.xy + 0.5) * rcp(textureSize.xy);
+    float u = uv.x;
+    float v = uv.y;
+    float3 dir = float3(0, 0, 0);
+    switch (dispatchThreadID.z)
+    {
+    case 0: //+X
+        dir.x = 1;
+        dir.y = v * -2.0f + 1.0f;
+        dir.z = u * -2.0f + 1.0f;
+        break;
+
+    case 1: //-X
+        dir.x = -1;
+        dir.y = v * -2.0f + 1.0f;
+        dir.z = u * 2.0f - 1.0f;
+        break;
+
+    case 2: //+Y
+        dir.x = u * 2.0f - 1.0f;
+        dir.y = 1.0f;
+        dir.z = v * 2.0f - 1.0f;
+        break;
+
+    case 3: //-Y
+        dir.x = u * 2.0f - 1.0f;
+        dir.y = -1.0f;
+        dir.z = v * -2.0f + 1.0f;
+        break;
+
+    case 4: //+Z
+        dir.x = u * 2.0f - 1.0f;
+        dir.y = v * -2.0f + 1.0f;
+        dir.z = 1;
+        break;
+
+    case 5: //-Z
+        dir.x = u * -2.0f + 1.0f;
+        dir.y = v * -2.0f + 1.0f;
+        dir.z = -1;
+        break;
+    }
+
+    return normalize(dir);
+}
+
+// RWStructuredBuffer<VecMatPair> dataBuffer;
+
+[numthreads(1,1,1)]
+void Cm2SmMain (uint3 dispatchThreadID : SV_DispatchThreadID)
+{
+    float2 uv = (dispatchThreadID.xy + 0.5) * rcp(_TextureSize.xy);
+
+    // jenny version remap
+	float theta = -uv.x * 6.283189;
+    // my version remap
+    //float theta = -uv.x * 6.283189 - 1.57079;
+
+	float phi = uv.y * 3.1415926 - 1.57079;
+
+	float3 dir;
+	dir.x = cos(phi) * cos(theta);
+	dir.y = sin(phi);
+	dir.z = cos(phi) * sin(theta);
+
+    float4 color = _CubeMapTexture.SampleLevel(sampler_LinearClamp, dir, 0);
+    Result[dispatchThreadID.xy] = color;
+
+#ifdef SHOW_NORMAL
+    Result[dispatchThreadID.xy] = float4(dir, 1);
+#endif
+
+#ifdef SHOW_FACES
+    float4 faceColors[6];
+    faceColors[0] = float4(1.0, 0.0, 0.0, 1.0); //left
+    faceColors[1] = float4(0.0, 1.0, 0.0, 1.0); //right
+    faceColors[2] = float4(0.0, 0.0, 1.0, 1.0); //bottom
+    faceColors[3] = float4(1.0, 1.0, 0.0, 1.0); //top
+    faceColors[4] = float4(1.0, 0.0, 1.0, 1.0); //back
+    faceColors[5] = float4(0.0, 1.0, 1.0, 1.0); //front
+
+    float ax = abs(dir.x);
+    float ay = abs(dir.y);
+    float az = abs(dir.z);
+
+    if (ax > ay && ax > az)
+    {
+        //x-major
+        color *= (dir.x < 0.0 ? faceColors[0] : faceColors[1]);
+    }
+    else if (ay > ax && ay > az)
+    {
+        //y-major
+        color *= (dir.y < 0.0 ? faceColors[2] : faceColors[3]);
+    }
+    else
+    {
+        //z-major
+        color *= (dir.z < 0.0 ? faceColors[4] : faceColors[5]);
+    }
+
+    Result[dispatchThreadID.xy] = color;
+#endif
+
+}
