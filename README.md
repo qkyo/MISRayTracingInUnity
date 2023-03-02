@@ -11,9 +11,13 @@
 ### Workflow 
  * Implement the ray trace among the three material of DIffuse, Dielectrics and Metal.
   
-    ![image](https://github.com/qkyo/RayTracingInUnity/blob/main/Assets/RenderResultSet/Different%20Material.png)
+    ![image](https://github.com/qkyo/MISRayTracingInUnity/blob/main/RenderResultSet/Different%20Material.png)
     
  * Implement the cornell box using mixture pdf between based-on-light and based-on-random-normal-on-sphere.
 
  * Using random value to pick pdf btw specular and diffuse so that the direction is chosen properly.
-    * One bounce reflection
+    * One bounce reflection without denoiser
+    ![image](https://github.com/qkyo/MISRayTracingInUnity/blob/main/RenderResultSet/MIS.png)
+    
+    * Accumulate result
+    ![image](https://github.com/qkyo/MISRayTracingInUnity/blob/main/RenderResultSet/MIS%20with%20accumulate%20frame.png)
