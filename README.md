@@ -1,6 +1,6 @@
 # MISRayTracingInUnity
  * Implement custom scriptable render pipeline for ray trace.
- * Include the material with closest hit shader in Peter Shirley's Ray Tracing series.
+ * Include the material with closest hit shader that is same as Peter Shirley's Ray Tracing series.
  * Apply MIS with specular and diffuse pdf.
 
 ### Work Framework Description
