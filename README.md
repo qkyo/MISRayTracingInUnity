@@ -16,6 +16,8 @@
  * Implement the cornell box using mixture pdf between based-on-light and based-on-random-normal-on-sphere.
 
  * Using random value to pick pdf btw specular and diffuse so that the direction is chosen properly.
+    * spheres with 0.9 specular and 0.1 diffuse coefficient
+    * cube with 0.9 diffuse and 0.1 specular coefficient
     * One bounce reflection without denoiser
  
     ![image](https://github.com/qkyo/MISRayTracingInUnity/blob/main/RenderResultSet/MIS.png)
