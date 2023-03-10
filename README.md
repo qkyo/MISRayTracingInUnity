@@ -2,6 +2,9 @@
  * Implement custom scriptable render pipeline for ray trace.
  * Include the material with closest hit shader that is same as Peter Shirley's Ray Tracing series.
  * Apply MIS with specular and diffuse pdf.
+ * Completed the mapping from the cube map to the scene environment
+ * Introduced HDR textures
+ * Support AI denoising, including Intel Open Image Denoise and Nvidia Optix Denoiser
 
 ### Work Framework Description
  * `Assets/RT Render Pipeline/Runtime/`includes core srp script `Ray Tracing Render Pipeline` and basic parent class `Ray Tracing Manager`.  Besides, two asset files are used to provide SO interface to manage properties in inspector. 
@@ -28,6 +31,3 @@
     
     ![image](https://github.com/qkyo/MISRayTracingInUnity/blob/main/RenderResultSet/MIS%20with%20accumulate%20frame.png)
 
- * Completed the mapping from the cube map to the scene environment
- * Introduced HDR textures
- * Support AI denoising, including Intel Open Image Denoise and Nvidia Optix Denoiser
