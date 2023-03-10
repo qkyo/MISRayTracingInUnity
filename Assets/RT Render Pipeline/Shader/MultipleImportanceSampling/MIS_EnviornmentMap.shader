@@ -2,6 +2,8 @@
 {
   Properties
   {
+    [Gamma] _Exposure("Exposure", Range(0, 8)) = 1.0
+    _Tint("Tint Color", Color) = (.5, .5, .5, .5)
     _Color("Main Color", Color) = (1,1,1,1)
     _BaseColorMap("BaseColorMap", 2D) = "white" {}
     _kDiffuse("Diffuse Coefficient", Range(0,1)) = 0.5
@@ -42,6 +44,9 @@
       CBUFFER_START(UnityPerMaterial)
       float4 _BaseColorMap_ST;
       half4 _Color;
+      half4 _Tex_HDR;
+      half4 _Tint;
+      half _Exposure;
       CBUFFER_END
 
       v2f vert(appdata v)
@@ -61,7 +66,17 @@
         col *= tex2D(_BaseColorMap, i.uv);
         // apply fog
         UNITY_APPLY_FOG(i.fogCoord, col);
+
         return col;
+
+        //////////////////////////
+        // HDR
+        //half4 tex = tex2D(_BaseColorMap, i.uv);
+        //half3 c = DecodeHDR(tex, _Tex_HDR);
+        //c = c * _Tint.rgb * unity_ColorSpaceDouble.rgb;
+        //c *= _Exposure;
+
+        //return half4(c, 1);
       }
       ENDCG
     }
@@ -76,10 +91,10 @@
       HLSLPROGRAM
 
       #pragma raytracing test
-      // #pragma multi_compile _ _ACCUMULATE_AVERAGE_SAMPLE_ON
       #include "../../ShaderLibrary/Common.hlsl"
       #include "../../ShaderLibrary/PRNG.hlsl"
       #include "../../ShaderLibrary/ONB.hlsl"
+      // #include "Mathf.h"
       
       struct IntersectionVertex
       {
@@ -91,12 +106,17 @@
       // Send data to GPU buffer
       TEXTURE2D(_BaseColorMap);
       SAMPLER(sampler_BaseColorMap);
+
       CBUFFER_START(UnityPerMaterial)
       float4 _BaseColorMap_ST;
       float4 _Color;
       float _kSpecular;
       float _kDiffuse;
       float _Metallic;
+
+      float4 _Tex_HDR;
+      //half4 _Tint;
+      //half _Exposure;
       CBUFFER_END
 
       #define RAY_PER_PIXEL (9)
@@ -114,20 +134,6 @@
         float cosine = dot(hitNormal, scatteredDir);
         return max(0.0f, cosine / M_PI);
       }
-
-      // Debug use
-      /*
-      [shader("closesthit")]
-      void ClosestHitShader(inout RayIntersection rayIntersection : SV_RayPayload,
-       AttributeData attributeData : SV_IntersectionAttributes)
-      {
-       float random = GetRandomValue(rayIntersection.PRNGStates);
-       if (random < 1 && random > 0)
-         rayIntersection.color = float4(1, 1, 1, 1);
-       else
-         rayIntersection.color = float4(0, 0, 0, 0);
-      }
-      */
 
       [shader("closesthit")]
       void ClosestHitShader(inout RayIntersection rayIntersection : SV_RayPayload,
@@ -154,6 +160,8 @@
         float3 normalWS = normalize(mul(objectToWorld, normalOS));
         float4 texColor = _Color * _BaseColorMap.SampleLevel(sampler_BaseColorMap, texCoord0, 0);
 
+        // float3 c = DecodeHDR(texColor, _Tex_HDR);
+
         // 当前材质的信息和碰撞信息存到payload中
         rayIntersection.normalWS = normalWS;
         rayIntersection.reflector = 0.0f;
@@ -162,87 +170,16 @@
         rayIntersection.kDiffuse = _kDiffuse;
         rayIntersection.kSpecular = _kSpecular;
         rayIntersection.shininess = _Metallic;
+
+        // hdr
+        //half4 tex = tex2D(_BaseColorMap, texCoord0);
+        //half3 c = DecodeHDR(tex, _Tex_HDR);
+        //c = c * _Tint.rgb * unity_ColorSpaceDouble.rgb;
+        //c *= _Exposure;
+
+        // rayIntersection.color = float4(c, 1);
       }
       ENDHLSL
     }
   }
 }
-
-        //float4 color = float4(0, 0, 0, 1);
-        //float4 fValue = float4(0, 0, 0, 1);
-
-        //if (rayIntersection.remainingDepth > 0)   // still remain recursive step or recursive depth
-        //{
-        //  // Get current hit position in world space.
-        //  float3 origin = WorldRayOrigin();
-        //  float3 direction = WorldRayDirection();
-        //  float t = RayTCurrent();
-        //  float3 positionWS = origin + direction * t;
-
-        //  // Determine which pdf would be used, diffuse or specular
-        //  float cDiffuse = _kDiffuse / (_kDiffuse + _kSpecular);
-        //  float cSpecular = _kSpecular / (_kDiffuse + _kSpecular);
-        //  float3 scatteredDir;
-
-        //  // Prepare a reflection ray.
-        //  RayDesc rayDescriptor;
-        //  rayDescriptor.Origin = positionWS + 0.001f * normalWS;
-        //  rayDescriptor.TMin = 1e-5f;
-        //  rayDescriptor.TMax = _CameraFarDistance;
-
-        //  // Tracing reflection.
-        //  RayIntersection reflectionRayIntersection;
-        //  reflectionRayIntersection.remainingDepth = rayIntersection.remainingDepth - 1;
-        //  reflectionRayIntersection.PRNGStates = rayIntersection.PRNGStates;
-        //  // reflectionRayIntersection.color = float4(0.0f, 0.0f, 0.0f, 0.0f);
-        //  // reflectionRayIntersection.color = float4(1.f, 1.f, 1.f, 1.f);
-
-        //  ///////////////////////////////////////////////////////////////////////// for (int i = 0; i < RAY_PER_PIXEL; i++) {
-        //  float pickPdfRandomVal = GetRandomValue(rayIntersection.PRNGStates);
-
-        //  // Random pick a direction
-        //  /*if (pickPdfRandomVal < cDiffuse)   
-        //  {*/
-        //    // Diffuse
-        //    ONB uvw;
-        //    ONBBuildFromW(uvw, normalWS);
-        //    scatteredDir = ONBLocal(uvw, GetRandomCosineDirection(rayIntersection.PRNGStates));
-        //  //}
-        //  //else
-        //  //{
-        //  //  // Specular
-        //  //  ONB uvw;
-        //  //  ONBBuildFromW(uvw, reflect(direction, normalWS));
-        //  //  scatteredDir = ONBLocal(uvw, GetRandomGlossyCosineDirection(rayIntersection.PRNGStates, _Metallic));
-        //  //}
-
-        //  // If the reflection light is visible
-        //  //if (dot(scatteredDir, normalWS) > 0)
-        //  //{
-
-        //    // Define reflection ray direction as new random direction.
-        //    rayDescriptor.Direction = scatteredDir;
-
-        //    TraceRay(_AccelerationStructure, RAY_FLAG_CULL_BACK_FACING_TRIANGLES, 0xFF, 0, 1, 0, rayDescriptor, reflectionRayIntersection);
-        //    rayIntersection.PRNGStates = reflectionRayIntersection.PRNGStates;
-
-        //    float pDiffuse = max(dot(normalWS, scatteredDir), 0) / M_PI;
-
-        //    color = ScatteringPDF(origin, direction, t, normalWS, scatteredDir) * reflectionRayIntersection.color / pDiffuse;
-        //    color = max(float4(0, 0, 0, 0), color);
-        //    // Hit enviornment map
-        //    //if (rayIntersection.reflector == 0.0f)
-        //    //{
-        //    //  float pDiffuse = max(dot(normalWS, scatteredDir), 0) / M_PI;
-        //    //  float pSpecular = pow(max(dot(normalWS, reflect(direction, normalWS)), 0), _Metallic) / (2 * M_PI / (_Metallic + 1));
-        //    //  float4 fValue = reflectionRayIntersection.color * (_kDiffuse * pDiffuse + _kSpecular * pSpecular);
-
-        //    //  color = fValue / (cDiffuse * pDiffuse + cSpecular * pSpecular);
-        //    //}
-        //  //}
-        //    ///////////////////////////////////////////////////////////////////////// }
-        //}
-
-        //rayIntersection.color = color;
-        ////rayIntersection.color = texColor * color;
-        ////rayIntersection.color = color / RAY_PER_PIXEL;

@@ -43,6 +43,7 @@ public class SceneManager : MonoBehaviour
             DontDestroyOnLoad(this);
 
         isDirty = true;
+        RayTracingResources.Instance.IsProgramRunning = true;
     }
 
     /// <summary>

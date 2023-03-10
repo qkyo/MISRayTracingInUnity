@@ -95,12 +95,12 @@ public class WalkerAliasGenerator : MonoBehaviour
         cm2smResult.enableRandomWrite = true;
         cm2smResult.Create();
 
-        if (cubeMapSetting.showFaces)
+        if (cubeMapSetting.M_cm2smParams.showFaces)
             cm2smShader.EnableKeyword("SHOW_FACES");
         else
             cm2smShader.DisableKeyword("SHOW_FACES");
 
-        if (cubeMapSetting.showNormal)
+        if (cubeMapSetting.M_cm2smParams.showNormal)
             cm2smShader.EnableKeyword("SHOW_NORMAL");
         else
             cm2smShader.DisableKeyword("SHOW_NORMAL");

@@ -38,7 +38,7 @@ RenderSettings:
   m_ReflectionIntensity: 1
   m_CustomReflection: {fileID: 0}
   m_Sun: {fileID: 0}
-  m_IndirectSpecularColor: {r: 0.56835675, g: 0.38176396, b: 0.33151287, a: 1}
+  m_IndirectSpecularColor: {r: 0.53530043, g: 0.3607442, b: 0.31443456, a: 1}
   m_UseRadianceAmbientProbe: 0
 --- !u!157 &3
 LightmapSettings:
@@ -141,7 +141,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!64 &265536928
 MeshCollider:
   m_ObjectHideFlags: 0
@@ -449,14 +449,14 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 963194225}
-  m_LocalRotation: {x: 0.10138308, y: 0.13984418, z: -0.0143957045, w: 0.9848644}
-  m_LocalPosition: {x: 0, y: 277.5, z: -343.3}
+  m_LocalRotation: {x: 0.10138307, y: 0.13984415, z: -0.014395717, w: 0.9848644}
+  m_LocalPosition: {x: 60.4, y: 277.5, z: -343.3}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 0}
   m_RootOrder: 0
-  m_LocalEulerAnglesHint: {x: 11.755, y: 16.163, z: 0}
+  m_LocalEulerAnglesHint: {x: 11.75478, y: 16.16319, z: 0.00000196214}
 --- !u!114 &963194229
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -469,10 +469,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 7ee25f97f81d2b640b96c1ec37c695c1, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  rendererAsset: {fileID: 11400000, guid: 57f6158d43323ab488c1e983e5b6ca88, type: 2}
   viewMode: 0
-  _resetTrans: {x: 0, y: 0, z: 0}
-  _resetAngles: {x: 0, y: 0, z: 0}
+  _resetTrans: {x: 0, y: 277.5, z: -343.3}
+  _resetAngles: {x: 11.754784, y: 16.163189, z: 0.0000019621398}
   m_speed: 80
   m_mSpeed: 50
   m_rSpeed: 5
@@ -559,7 +558,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!64 &1247503555
 MeshCollider:
   m_ObjectHideFlags: 0
@@ -657,7 +656,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!64 &1319305209
 MeshCollider:
   m_ObjectHideFlags: 0
@@ -755,7 +754,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!64 &1394887811
 MeshCollider:
   m_ObjectHideFlags: 0
@@ -1047,7 +1046,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!64 &1986489142
 MeshCollider:
   m_ObjectHideFlags: 0
@@ -1145,7 +1144,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!64 &2065993015
 MeshCollider:
   m_ObjectHideFlags: 0

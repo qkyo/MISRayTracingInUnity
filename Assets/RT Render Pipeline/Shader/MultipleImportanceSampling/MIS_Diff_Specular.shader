@@ -106,21 +106,6 @@
         outVertex.texCoord0 = UnityRayTracingFetchVertexAttribute2(vertexIndex, kVertexAttributeTexCoord0);
       }
 
-
-      // Debug use
-      /*
-      [shader("closesthit")]
-      void ClosestHitShader(inout RayIntersection rayIntersection : SV_RayPayload,
-       AttributeData attributeData : SV_IntersectionAttributes)
-      {
-       float random = GetRandomValue(rayIntersection.PRNGStates);
-       if (random < 1 && random > 0)
-         rayIntersection.color = float4(1, 1, 1, 1);
-       else
-         rayIntersection.color = float4(0, 0, 0, 0);
-      }
-      */
-
       [shader("closesthit")]
       void ClosestHitShader(inout RayIntersection rayIntersection : SV_RayPayload,
                             AttributeData attributeData : SV_IntersectionAttributes)
@@ -155,7 +140,7 @@
         // 当前材质的信息和碰撞信息存到payload
         rayIntersection.normalWS = normalWS;
         rayIntersection.reflector = 1.0f;
-        // rayIntersection.color = texColor;
+        rayIntersection.color = float4(0.0f, 0.0f, 0.0f, 1.0f);
         rayIntersection.hitT = RayTCurrent();
         rayIntersection.kDiffuse = _kDiffuse;
         rayIntersection.kSpecular = _kSpecular;
@@ -164,5 +149,4 @@
       ENDHLSL
     }
   }
-  // CustomEditor "CustomShaderGUI"
 }

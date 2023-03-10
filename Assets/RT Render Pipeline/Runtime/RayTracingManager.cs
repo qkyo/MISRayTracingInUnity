@@ -102,7 +102,9 @@ public abstract class RayTracingManager
     /// <returns>the output target size.</returns>
     protected Vector4 RequireOutputTargetSize(Camera camera)
     {
+        
         var id = camera.GetInstanceID();
+
 
         if (outputTargetSizes.TryGetValue(id, out var outputTargetSize))
         return outputTargetSize;
@@ -110,6 +112,7 @@ public abstract class RayTracingManager
         outputTargetSize = new Vector4(camera.pixelWidth, camera.pixelHeight, 1.0f / camera.pixelWidth, 1.0f / camera.pixelHeight);
         outputTargetSizes.Add(id, outputTargetSize);
 
+        Debug.Log(outputTargetSize.x + " " + outputTargetSize.y + " " + id + " " + camera.cameraType);
         return outputTargetSize;
     }
 
@@ -127,4 +130,5 @@ public abstract class RayTracingManager
         Shader.SetGlobalMatrix(CameraShaderParams._InvCameraViewProj, invViewProjMatrix);
         Shader.SetGlobalFloat(CameraShaderParams._CameraFarDistance, camera.farClipPlane);
     }
+
 }

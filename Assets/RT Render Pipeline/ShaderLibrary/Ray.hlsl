@@ -11,6 +11,7 @@ struct RayIntersection
     float hitT;
     float3 normalWS;    // hit point normal
     float reflector;    // miss = 0, hit = 1;
+    float3 direction;
 
     float kSpecular;
     float kDiffuse;

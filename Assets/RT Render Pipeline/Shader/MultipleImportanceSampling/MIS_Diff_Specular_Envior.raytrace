@@ -1,12 +1,20 @@
-﻿#pragma max_recursion_depth 11
+﻿#pragma max_recursion_depth 4
 
 #include "../../ShaderLibrary/Common.hlsl"
 #include "../../ShaderLibrary/PRNG.hlsl"
 
-#define MAX_DEPTH (10)
-#define NUM_OF_SAMPLES (60)
+#define MAX_DEPTH (4)
+#define NUM_OF_SAMPLES (400)
 
+TextureCube<float4> _CubeTexture : register(t2);
 RWTexture2D<float4> _OutputTarget;
+
+sampler _SamLinearClamp : register(s1);
+half4 _SamLinearClamp_HDR;
+
+float _HDRExposure;
+float4 _HDRTint;
+
 float4 _OutputTargetSize;
 int _FrameIndex;
 int _EnableAccumulate;
@@ -39,8 +47,9 @@ void MISRayGenShader()
     // Prepare initial payload
     RayIntersection rayIntersection;
     rayIntersection.PRNGStates = PRNGStates;
-    rayIntersection.color = float4(0.0f, 0.0f, 0.0f, 0.0f);
+    // rayIntersection.color = float4(0.0f, 0.0f, 0.0f, 0.0f);
     rayIntersection.reflector = 1;
+    rayIntersection.direction = direction;
 
     // per pixel send ray
     TraceRay(_AccelerationStructure, RAY_FLAG_CULL_BACK_FACING_TRIANGLES, 0xFF, 0, 1, 0, rayDescriptor, rayIntersection);
@@ -52,7 +61,7 @@ void MISRayGenShader()
         finalColor = rayIntersection.color;
     }
 
-    // hit, it must hit
+    // hit object, it must hit
     if(rayIntersection.reflector == 1)
     {
         // Get current hit position in world space.
@@ -76,8 +85,8 @@ void MISRayGenShader()
         
         ////////////////////////////////////////////////////////
         //// for loop ray_per_pixel, MIS Rogers
-        //for(int i=0; i<NUM_OF_SAMPLES; i++)
-        //{
+        for(int i=0; i<NUM_OF_SAMPLES; i++)
+        {
             float pickPdfRandomVal = GetRandomValue(rayIntersection.PRNGStates);
 
             // Random pick a direction
@@ -85,58 +94,39 @@ void MISRayGenShader()
             {
                 // Diffuse
                 // This seed is related to frame index and pixel position.
-                uint seed = tea( PRNGIndex, _FrameIndex*1024 );
+                uint seed = tea( PRNGIndex, _FrameIndex*_OutputTargetSize.x );
                 scatteredDir = diffuse_sample(seed, normalWS);
-
-                // If the reflection light is visible
-                if (dot(scatteredDir, normalWS) > -0.1)
-                {
-                    // Define reflection ray direction as new random direction.
-                    reflectionRayDescriptor.Direction = scatteredDir;
-
-                    TraceRay(_AccelerationStructure, RAY_FLAG_CULL_BACK_FACING_TRIANGLES, 0xFF, 0, 1, 0, reflectionRayDescriptor, reflectionRayIntersection);
-                    rayIntersection.PRNGStates = reflectionRayIntersection.PRNGStates;
-
-                    float pDiffuse = max(dot(normalWS, scatteredDir), 0) / M_PI;
-                    // float pSpecular = pow( max(dot(scatteredDir, reflect(direction, normalWS)), 0), shininess) / (2 * M_PI / (shininess + 1));
-                    float pSpecular = pow( max(dot(scatteredDir, reflect(direction, normalWS)), 0), shininess);
-                
-                    fValue = reflectionRayIntersection.color * rayIntersection.kDiffuse * pDiffuse;
-                    // pTotal += pDiffuse;
-                    pTotal = (cDiffuse * pDiffuse + cSpecular * pSpecular);
-                }
             }
             else
             {
                 // Specular
                 scatteredDir = glossy_sample(rayIntersection.PRNGStates, direction, normalWS, shininess);
-            
-                // If the reflection light is visible
-                if (dot(scatteredDir, normalWS) > -0.1)
-                {
-                    // Define reflection ray direction as new random direction.
-                    reflectionRayDescriptor.Direction = scatteredDir;
+            }
 
-                    TraceRay(_AccelerationStructure, RAY_FLAG_CULL_BACK_FACING_TRIANGLES, 0xFF, 0, 1, 0, reflectionRayDescriptor, reflectionRayIntersection);
-                    rayIntersection.PRNGStates = reflectionRayIntersection.PRNGStates;
+            if (dot(scatteredDir, normalWS) > 0.0f)
+            {
+                // Define reflection ray direction as new random direction.
+                reflectionRayDescriptor.Direction = scatteredDir;
+                reflectionRayIntersection.direction = scatteredDir;
 
-                    float pDiffuse = max(dot(normalWS, scatteredDir), 0) / M_PI;
-                    // float pSpecular = pow( max(dot(scatteredDir, reflect(direction, normalWS)), 0), shininess) / (2 * M_PI / (shininess + 1));
-                    float pSpecular = pow( max(dot(scatteredDir, reflect(direction, normalWS)), 0), shininess);
+                TraceRay(_AccelerationStructure, RAY_FLAG_CULL_BACK_FACING_TRIANGLES, 0xFF, 0, 1, 0, reflectionRayDescriptor, reflectionRayIntersection);
+                rayIntersection.PRNGStates = reflectionRayIntersection.PRNGStates;
 
-                    fValue = reflectionRayIntersection.color * rayIntersection.kSpecular * pSpecular;
-                    // pTotal += pSpecular;
-                    pTotal = (cDiffuse * pDiffuse + cSpecular * pSpecular);
-                }
-            }  
-            finalColor += fValue / pTotal;
-        //}
+
+                float pDiffuse = max(dot(normalWS, scatteredDir), 0) / M_PI;
+                float pSpecular = pow( max(dot(scatteredDir, reflect(direction, normalWS)), 0), shininess) / (2 * M_PI / (shininess + 1));
+                // float pSpecular = pow( max(dot(scatteredDir, reflect(direction, normalWS)), 0), shininess);
+                float4 fval = reflectionRayIntersection.color * (rayIntersection.kDiffuse * pDiffuse + rayIntersection.kSpecular * pSpecular); 
+                pTotal = (cDiffuse * pDiffuse + cSpecular * pSpecular);
+                finalColor += fval / pTotal;
+            }
+        }
         //  end of for loop ray_per_pixel, MIS Rogers
         ////////////////////////////////////////////////////////
-        // finalColor /= NUM_OF_SAMPLES;
+        finalColor /= NUM_OF_SAMPLES;
     }
     _PRNGStates[PRNGIndex] = PRNGStates;
-  
+
     // Accumulate weighted result
     if (_EnableAccumulate)
         if (_FrameIndex > 1)
@@ -144,13 +134,23 @@ void MISRayGenShader()
             float a = 1.0f / (float)_FrameIndex;
             finalColor = _OutputTarget[dispatchIdx] * (1.0f - a) + finalColor * a;
         }
-
+        
+    // _DenoiseNormal[dispatchIdx] = float4(rayIntersection.normalWS, rayIntersection.hitT);
     _OutputTarget[dispatchIdx] = finalColor;
 }
 
 [shader("miss")]
 void MissShader(inout RayIntersection rayIntersection : SV_RayPayload)
 {
-    rayIntersection.color = float4(0.0f, 0.0f, 0.0f, 1.0f);
+    rayIntersection.color = _CubeTexture.SampleLevel(_SamLinearClamp, rayIntersection.direction, 0);
+
+    float4 tex = _CubeTexture.SampleLevel(_SamLinearClamp, rayIntersection.direction, 0);
+    half3 c = DecodeHDR(tex, _SamLinearClamp_HDR);              // _SamLinearClamp_HDR is just a flag vector
+    c = c * _HDRTint * unity_ColorSpaceDouble.rgb;
+    c *= LinearToGammaSpace(_HDRExposure);
+
+    rayIntersection.color = float4(c, 1);
+
     rayIntersection.reflector = 0.0f;
+    rayIntersection.normalWS = float3(0.0f, 0.0f, 0.0f);
 }

@@ -12,10 +12,13 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f201ae3065eca2d4aa46b0d7b2f8dfa2, type: 3}
   m_Name: CubeMapSetting
   m_EditorClassIdentifier: 
-  cubemapping: {fileID: 8900000, guid: b85e82388d08e704385c6cc25faa47eb, type: 2}
-  importedAlias: {fileID: 2800000, guid: 6ffed40658bdc8e448595ee929a60dbe, type: 3}
-  importedProbs: {fileID: 2800000, guid: 37596754c6de85045ae03342fcf872fe, type: 3}
-  useImportEnviornmentMap: 1
-  showNormal: 0
-  showFaces: 0
-  debug: 1
+  cubemapping: {fileID: 8900000, guid: 515f5cb61d60574478838a3103fb6b6a, type: 2}
+  m_HDRParams:
+    exposureToGamma: 0.96
+    Tint: {r: 0.7264151, g: 0.7264151, b: 0.7264151, a: 0}
+    colorDecodeFlag: 0
+  m_cm2smParams:
+    useImportEnviornmentMap: 1
+    showNormal: 0
+    showFaces: 0
+    debug: 0

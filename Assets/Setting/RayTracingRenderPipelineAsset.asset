@@ -12,4 +12,4 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: fc2556831d863ed4499f1ac9626a1dc3, type: 3}
   m_Name: RayTracingRenderPipelineAsset
   m_EditorClassIdentifier: 
-  managerAsset: {fileID: 11400000, guid: 975a85a68a608264bacf6ecaa8ce526e, type: 2}
+  managerAsset: {fileID: 11400000, guid: 85ce5aab667b8274e93102ae66695b6b, type: 2}

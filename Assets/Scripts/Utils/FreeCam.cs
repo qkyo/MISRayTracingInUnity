@@ -21,8 +21,6 @@ public class FreeCam : MonoBehaviour
     /// 相机视角模式
     /// </summary>
 
-    public MisRendererAsset rendererAsset;
-
     public CamViewMode viewMode = CamViewMode.FREE;
 
     [SerializeField]
@@ -55,20 +53,14 @@ public class FreeCam : MonoBehaviour
         //在UI上时不执行
         //if (EventSystem.current.IsPointerOverGameObject()) return;
 
-        if(!rendererAsset.enableAccumulate){
-            if (viewMode != CamViewMode.LIMIT)
-              {
-                  //有的没加缓动效果
-                  CameraKeyMove();
-                  CameraMiddleMove();
-                  CameraRotate();
-                  CameraScale();
-              }
-          
+        if (viewMode != CamViewMode.LIMIT)
+        {
+            //CameraKeyMove();
+            //CameraMiddleMove();
+            //CameraRotate();
+            //CameraScale();
+            CameraMouseControl();
         }
-
-        //不同视角
-        CameraMode();
 
         //相机复位
         if (Input.GetKeyUp(KeyCode.Space))
@@ -76,8 +68,62 @@ public class FreeCam : MonoBehaviour
             CameraReset();
         }
 
+    }
+    private void CameraMouseControl()
+    {
+        //鼠标滚轮场景缩放;
+        if (Input.GetAxis("Mouse ScrollWheel") != 0)
+        {
+            RayTracingResources.Instance.IsCamMoving = true;
+            RayTracingResources.Instance.IsAccumulateReset = true;
+            float m_distance = Input.GetAxis("Mouse ScrollWheel") * m_sSpeed;
+            Vector3 newPos = camTrans.localPosition + camTrans.forward * m_distance;
+            // Debug.Log(newPos.magnitude);
+            if (newPos.magnitude >= m_maxDistance) return;
+            camTrans.localPosition = newPos;
+        }
+        //鼠标右键点下控制相机旋转;
+        else if (Input.GetMouseButton(1))
+        {
+            RayTracingResources.Instance.IsCamMoving = true;
+            RayTracingResources.Instance.IsAccumulateReset = true;
+            if (!_isFirstClick)
+            {
+                m_deltX += Input.GetAxis("Mouse X") * m_rSpeed;
+                m_deltY -= Input.GetAxis("Mouse Y") * m_rSpeed;
+            }
+            else//第一次点击时规划角度
+            {
+                _isFirstClick = false;
+                m_deltX = _resetAngles.y;
+                m_deltY = _resetAngles.x;
+            }
+
+            m_deltX = ClampAngle(m_deltX, -360, 360);
+            m_deltY = ClampAngle(m_deltY, -70, 70);
+
+            camTrans.localRotation = Quaternion.Euler(m_deltY, m_deltX, 0);
+        }
+        //点击鼠标中键控制移动;
+        else if (Input.GetMouseButton(2))
+        {
+            RayTracingResources.Instance.IsCamMoving = true;
+            RayTracingResources.Instance.IsAccumulateReset = true;
+            float dx = Input.GetAxis("Mouse X");
+            float dy = Input.GetAxis("Mouse Y");
+            Vector3 yz = camTrans.forward + camTrans.up;
+            yz.y = 0;
+            Vector3 TargetLookAt = camTrans.position;
+            TargetLookAt -= (yz * dy + transform.right * dx) * m_mSpeed;
+            camTrans.position = Vector3.Lerp(camTrans.position, TargetLookAt, moveSmoothing);
+        }
+        else
+        {
+            RayTracingResources.Instance.IsCamMoving = false;
+        }
 
     }
+
     private void CameraMode()
     {
         switch (viewMode)
@@ -89,6 +135,7 @@ public class FreeCam : MonoBehaviour
                 break;
         }
     }
+
     void CameraScale()
     {
         //鼠标滚轮场景缩放;
@@ -164,6 +211,8 @@ public class FreeCam : MonoBehaviour
         //相机位置和角度重置，需要自己设一个初始的位置和角度
         camTrans.localPosition = _resetTrans;
         camTrans.localRotation = Quaternion.Euler(_resetAngles);
+
+        RayTracingResources.Instance.IsCamMoving = false;
     }
     //规划角度;
     float ClampAngle(float angle, float minAngle, float maxAgnle)
