@@ -14,7 +14,7 @@
 ### Workflow 
 <details><summary>Implement the ray trace among the three material of DIffuse, Dielectrics and Metal</summary>
 
-    ![image](https://github.com/qkyo/MISRayTracingInUnity/blob/main/RenderResultSet/Different%20Material.png)
+    <img src="[Images/cornellbox.png](https://github.com/qkyo/MISRayTracingInUnity/blob/main/RenderResultSet/Different%20Material.png)" width="600" alt="cornellbox">
 
 </details>
 
