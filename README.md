@@ -11,6 +11,7 @@
  * Inherit and extend the parent class `Ray Tracing Manager` to implement a separate raytrace, including control of memory allocation, communication with shader, etc.
 
 ### Workflow 
+Expand for images
 <details><summary>Implement the ray trace among the three material of Diffuse, Dielectrics and Metal</summary>
 <img src="RenderResultSet/Different Material.png" width="600" alt="Different material">
 </details>
