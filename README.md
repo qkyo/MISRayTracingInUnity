@@ -21,14 +21,12 @@
 
 
 <details><summary>Using random value to pick pdf btw specular and diffuse so that the direction is chosen properly</summary>
-    * spheres with 0.9 specular and 0.1 diffuse coefficient
-    * cube with 0.9 diffuse and 0.1 specular coefficient
-    * One bounce reflection without denoiser
- 
-    ![image](https://github.com/qkyo/MISRayTracingInUnity/blob/main/RenderResultSet/MIS.png)
+spheres with 0.9 specular and 0.1 diffuse coefficient
+cube with 0.9 diffuse and 0.1 specular coefficient
+One bounce reflection without denoiser
+
+<img src="Images/basic.png" width="600" alt="basic">
     
-    * Accumulate result
-    
-    ![image](https://github.com/qkyo/MISRayTracingInUnity/blob/main/RenderResultSet/MIS%20with%20accumulate%20frame.png)
+<img src="Images/basic.png" width="600" alt="basic">
 
 </details>
