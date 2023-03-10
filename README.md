@@ -2,8 +2,7 @@
  * Implement custom scriptable render pipeline for ray trace.
  * Include the material with closest hit shader that is same as Peter Shirley's Ray Tracing series.
  * Apply MIS with specular and diffuse pdf.
- * Completed the mapping from the cube map to the scene environment
- * Introduced HDR textures
+ * Introduced HDR enviornment map from cube map
  * Support AI denoising, including Intel Open Image Denoise and Nvidia Optix Denoiser
 
 ### Work Framework Description
