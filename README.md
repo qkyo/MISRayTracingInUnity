@@ -14,7 +14,7 @@
 ### Workflow 
 <details><summary>Implement the ray trace among the three material of Diffuse, Dielectrics and Metal</summary>
 
-<img src="[https://github.com/qkyo/MISRayTracingInUnity/blob/main/RenderResultSet/Different%20Material.png]" width="600" alt="cornellbox">
+<img src="[RenderResultSet/Different Material.png]" width="600" alt="cornellbox">
 </details>
 
  * Implement the cornell box using mixture pdf between based-on-light and based-on-random-normal-on-sphere.
