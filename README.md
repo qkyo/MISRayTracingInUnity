@@ -12,10 +12,12 @@
  * Inherit and extend the parent class `Ray Tracing Manager` to implement a separate raytrace, including control of memory allocation, communication with shader, etc.
 
 ### Workflow 
- * Implement the ray trace among the three material of DIffuse, Dielectrics and Metal.
-  
+<details><summary>Implement the ray trace among the three material of DIffuse, Dielectrics and Metal</summary>
+<p>
     ![image](https://github.com/qkyo/MISRayTracingInUnity/blob/main/RenderResultSet/Different%20Material.png)
-    
+</p>
+</details>
+
  * Implement the cornell box using mixture pdf between based-on-light and based-on-random-normal-on-sphere.
  
     ![image](https://github.com/qkyo/MISRayTracingInUnity/blob/main/RenderResultSet/Cornell%20box.png)
