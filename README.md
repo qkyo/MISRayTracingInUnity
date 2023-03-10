@@ -12,21 +12,15 @@
 
 ### Workflow 
 <details><summary>Implement the ray trace among the three material of Diffuse, Dielectrics and Metal
-
+<img src="RenderResultSet/Different Material.png" width="600" alt="Different material">
 </details>
 
 <details><summary>Implement the cornell box using mixture pdf between based-on-light and based-on-random-normal-on-sphere</summary>
-
+<img src="RenderResultSet/Cornell box.png" width="600" alt="Cornell box">
 </details>
 
-
 <details><summary>Using random value to pick pdf btw specular and diffuse so that the direction is chosen properly</summary>
-spheres with 0.9 specular and 0.1 diffuse coefficient
-cube with 0.9 diffuse and 0.1 specular coefficient
 One bounce reflection without denoiser
-
-<img src="RenderResultSet/Cornell box.png" width="600" alt="basic">
-    
-<img src="Images/basic.png" width="600" alt="basic">
-
+<img src="RenderResultSet/MIS.png" width="600" alt="spheres with 0.9 specular and 0.1 diffuse coefficient, cube with 0.9 diffuse and 0.1 specular coefficient">
+<img src="RenderResultSet/MIS with accumulate frame.png" width="600" alt="accumulate result">
 </details>
