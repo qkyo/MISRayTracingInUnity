@@ -25,7 +25,7 @@ spheres with 0.9 specular and 0.1 diffuse coefficient
 cube with 0.9 diffuse and 0.1 specular coefficient
 One bounce reflection without denoiser
 
-<img src="Images/basic.png" width="600" alt="basic">
+<img src="RenderResultSet/Cornell box.png" width="600" alt="basic">
     
 <img src="Images/basic.png" width="600" alt="basic">
 
