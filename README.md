@@ -27,3 +27,7 @@
     * Accumulate result
     
     ![image](https://github.com/qkyo/MISRayTracingInUnity/blob/main/RenderResultSet/MIS%20with%20accumulate%20frame.png)
+
+ * Completed the mapping from the cube map to the scene environment
+ * Introduced HDR textures
+ * Support AI denoising, including Intel Open Image Denoise and Nvidia Optix Denoiser
