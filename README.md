@@ -29,6 +29,6 @@
 <img src="RenderResultSet/HDR env map.png" width="600" alt="HDR enviornment map enable accumulation">
 </details>
 
-<details><summary>AI denoising, using Nvidia Optix Denoiser</summary>
-<img src="RenderResultSet/Import AI denoiser.png" width="600" alt="Nvidia Optix Denoiser, one ray per pixel">
+<details><summary>AI denoising, using Nvidia Optix Denoiser, sample with one ray per pixel</summary>
+<img src="RenderResultSet/Import AI denoiser.png" width="600" alt="Nvidia Optix Denoiser">
 </details>
