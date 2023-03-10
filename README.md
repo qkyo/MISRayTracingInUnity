@@ -8,7 +8,7 @@
 
 ### Work Framework Description
  * `Assets/RT Render Pipeline/Runtime/`includes core srp script `Ray Tracing Render Pipeline` and basic parent class `Ray Tracing Manager`.  Besides, two asset files are used to provide SO interface to manage properties in inspector. 
- * The mesh that needs to be drawn needs to be manually added to the list of SceneManager in the inspector, so that the acceleration structure are able to built, where `Assets/RT Render Pipeline/Runtime/SceneManager` takes charge of these thing.
+ * The mesh that needs to be drawn needs to be manually added to the list of SceneManager in the inspector, so that the acceleration structure are able to be built, where `Assets/RT Render Pipeline/Runtime/SceneManager` takes charge of these thing.
  * Inherit and extend the parent class `Ray Tracing Manager` to implement a separate raytrace, including control of memory allocation, communication with shader, etc.
 
 ### Workflow 
