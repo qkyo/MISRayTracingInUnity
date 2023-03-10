@@ -19,8 +19,7 @@
 <img src="RenderResultSet/Cornell box.png" width="600" alt="Cornell box">
 </details>
 
-<details><summary>Using random value to pick pdf btw specular and diffuse so that the direction is chosen properly</summary>
-One bounce reflection without denoiser </br>
+<details><summary>MIS, One bounce reflection without denoiser</summary>
 <img src="RenderResultSet/MIS.png" width="600" alt="spheres with 0.9 specular and 0.1 diffuse coefficient, cube with 0.9 diffuse and 0.1 specular coefficient">
 <img src="RenderResultSet/MIS with accumulate frame.png" width="600" alt="accumulate result">
 </details>
