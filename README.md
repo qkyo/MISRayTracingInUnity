@@ -15,6 +15,10 @@ Sort by time (newest to oldest)
 Expand for images.
 
 <details><summary>AI denoising, using Nvidia Optix Denoiser, sample with one ray per pixel</summary>
+<img src="RenderResultSet/HDR Enviornment map.png" width="600" alt="Nvidia Optix Denoiser">
+</details>
+
+<details><summary>AI denoising, using Nvidia Optix Denoiser, sample with one ray per pixel</summary>
 <img src="RenderResultSet/Import AI denoiser.png" width="600" alt="Nvidia Optix Denoiser">
 </details>
 
@@ -23,7 +27,7 @@ Expand for images.
 <img src="RenderResultSet/MIS with accumulate frame.png" width="600" alt="accumulate result">
 </details>
 
-<details><summary>HDR enviornment map</summary>
+<details><summary>HDR Tone mapping</summary>
 <img src="RenderResultSet/HDR env map with noise.png" width="600" alt="HDR enviornment map">
 <img src="RenderResultSet/HDR env map.png" width="600" alt="HDR enviornment map enable accumulation">
 </details>
