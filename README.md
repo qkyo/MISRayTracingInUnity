@@ -14,7 +14,8 @@
  * Sort by time.
  * Expand the toggle for more images.
 
-**[New!]** HDR Environment map is included (Image-based multiple light source)
+<details><summary> **[New!]** HDR Environment map is included (Image-based multiple light source) </summary>
+</details>
 <img src="RenderResultSet/HDR Enviornment map.png" width="600" alt="Nvidia Optix Denoiser">
 
 <details><summary>AI denoising, using Nvidia Optix Denoiser, sample with one ray per pixel</summary>
