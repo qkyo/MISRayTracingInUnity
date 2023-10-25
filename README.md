@@ -11,8 +11,8 @@
  * Inherit and extend the parent class `Ray Tracing Manager` to implement a separate raytrace, including control of memory allocation, communication with shader, etc.
 
 ### Workflow 
-Sort by time (newest to oldest)
-Expand for images.
+ * Sort by time.
+ * Expand the toggle for more images.
 
 **[New!]** HDR Environment map is included (Image-based multiple light source)
 <img src="RenderResultSet/HDR Enviornment map.png" width="600" alt="Nvidia Optix Denoiser">
