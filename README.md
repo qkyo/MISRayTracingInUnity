@@ -19,7 +19,7 @@ AI denoising, using Nvidia Optix Denoiser, sample with one ray per pixel
 
 // <details><summary>HDR Environment map is included (Image-based multiple light source)</summary>
 // <img src="RenderResultSet/HDR Enviornment map.png" width="600" alt="Nvidia Optix Denoiser">
-// </details>
+</details>
 
 <details><summary>AI denoising, using Nvidia Optix Denoiser, sample with one ray per pixel</summary>
 <img src="RenderResultSet/Import AI denoiser.png" width="600" alt="Nvidia Optix Denoiser">
