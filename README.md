@@ -11,13 +11,11 @@
  * Inherit and extend the parent class `Ray Tracing Manager` to implement a separate raytrace, including control of memory allocation, communication with shader, etc.
 
 ### Workflow 
+Sort by time (newest to oldest)
 Expand for images.
-<details><summary>Implement the ray trace among the three material of Diffuse, Dielectrics and Metal</summary>
-<img src="RenderResultSet/Different Material.png" width="600" alt="Different material">
-</details>
 
-<details><summary>Implement the cornell box using mixture pdf between based-on-light and based-on-random-normal-on-sphere</summary>
-<img src="RenderResultSet/Cornell box.png" width="600" alt="Cornell box">
+<details><summary>AI denoising, using Nvidia Optix Denoiser, sample with one ray per pixel</summary>
+<img src="RenderResultSet/Import AI denoiser.png" width="600" alt="Nvidia Optix Denoiser">
 </details>
 
 <details><summary>MIS, One bounce reflection without denoiser</summary>
@@ -30,6 +28,14 @@ Expand for images.
 <img src="RenderResultSet/HDR env map.png" width="600" alt="HDR enviornment map enable accumulation">
 </details>
 
-<details><summary>AI denoising, using Nvidia Optix Denoiser, sample with one ray per pixel</summary>
-<img src="RenderResultSet/Import AI denoiser.png" width="600" alt="Nvidia Optix Denoiser">
+<details><summary>Implement the cornell box using mixture pdf between based-on-light and based-on-random-normal-on-sphere</summary>
+<img src="RenderResultSet/Cornell box.png" width="600" alt="Cornell box">
 </details>
+
+<details><summary>Implement the ray trace among the three material of Diffuse, Dielectrics and Metal</summary>
+<img src="RenderResultSet/Different Material.png" width="600" alt="Different material">
+</details>
+
+
+
+
