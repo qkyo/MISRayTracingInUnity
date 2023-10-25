@@ -14,7 +14,7 @@
 Sort by time (newest to oldest)
 Expand for images.
 
-<details><summary>HDR Environment map is included</summary>
+<details><summary>HDR Environment map is included (Image-based multiple light source)</summary>
 <img src="RenderResultSet/HDR Enviornment map.png" width="600" alt="Nvidia Optix Denoiser">
 </details>
 
